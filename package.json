@@ -1,0 +1,35 @@
+{
+  "name": "social_dev_worker_2.0",
+  "version": "2.0.0",
+  "description": "social netwok form developper",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanndeo/SOCIAL_DEV_WORKER_2.0.git"
+  },
+  "author": "Yann Deo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanndeo/SOCIAL_DEV_WORKER_2.0/issues"
+  },
+  "homepage": "https://github.com/yanndeo/SOCIAL_DEV_WORKER_2.0#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.4",
+    "npm": "^6.10.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1"
+  }
+}
