@@ -1,1 +1,9 @@
-GET http://localhost:5000/api/profile
+POST  http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+	"name": "Yann Deo",
+    "email": "yan2sambou@gmail.com",
+    "password" : "secret"
+}
+

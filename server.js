@@ -2,15 +2,21 @@ const express= require('express');
 const connectDB = require('./config/db');
 const app = express();
 
-
+//SETTINGS
 connectDB();
 
 
+//MIDDLEWARES
+app.use(express.json({ extended: true }));
+
+
+
+
+//ROUTES
+
 app.get('/', (req, res)=>{
     res.send('Merci Seigneur Jesus')
-})
-
-
+});
 
 app.use('/api/users', require('./routes/api/users'));
 app.use("/api/auth", require("./routes/api/auth"));
