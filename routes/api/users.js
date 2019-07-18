@@ -8,7 +8,8 @@ const checkedRequest = require('../../validations/UserValidation');
 
 //Models
 const User = require('../../models/User')
-
+//Middleware 
+const auth = require('../../middleware/check-token')
 
 
 
@@ -67,12 +68,6 @@ router.post('/', checkedRequest.onRegister, async(req, res) => {
    
 
 
-
-
-
-
-        console.log(req.body);
-        res.send('User router');
 })
 
 

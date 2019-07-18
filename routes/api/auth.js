@@ -1,16 +1,33 @@
 const express = require('express')
 const router = express();
 
+//Models
+const User = require('../../models/User')
+//Middleware 
+const isProtected = require("../../middleware/check-token");
+
 
 
 /**
  * @routes GET api/auth
  * @desc Test Routes
- * @access Public
-  */
-router.get('/', (req, res) => {
+ * @access Private
+ */
+router.get('/', isProtected, async(req, res) => {
 
-    res.send('Auth router')
+    try {
+
+        const user = await User.findById(req.user.id).select('-password ');
+
+        return res.json(user);
+        
+    } catch (error) {
+        console.log('err-auth:', error.message)
+
+        return res.status(500).send("server error")
+
+    }
+    
 })
 
 
