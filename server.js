@@ -2,26 +2,26 @@ const express= require('express');
 const connectDB = require('./config/db');
 const app = express();
 
-//SETTINGS
-connectDB();
+    //SETTINGS
+    connectDB();
 
 
-//MIDDLEWARES
-app.use(express.json({ extended: true }));
+    //MIDDLEWARES
+    app.use(express.json({ extended: true }));
 
 
 
 
-//ROUTES
+    //ROUTES
 
-app.get('/', (req, res)=>{
-    res.send('Merci Seigneur Jesus')
-});
+    app.get('/', (req, res)=>{
+        res.send('Merci Seigneur Jesus')
+    });
 
-app.use('/api/users', require('./routes/api/users'));
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/profile", require("./routes/api/profile"));
-app.use("/api/posts", require("./routes/api/posts"));
+    app.use('/api/users', require('./routes/api/users'));
+    app.use("/api/auth", require("./routes/api/auth"));
+    app.use("/api/profile", require("./routes/api/profile"));
+    app.use("/api/posts", require("./routes/api/posts"));
 
 
 

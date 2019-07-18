@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs')
-const { validationResult} = require('express-validator/check');
+const { validationResult} = require('express-validator');
 const checkedRequest = require('../../validations/UserValidation');
 
 //Models
@@ -21,13 +21,15 @@ const User = require('../../models/User')
  * @desc   Register user
  * @access Public
  */
-router.post('/', checkedRequest.onRegister,async (req, res) => {
+router.post('/', checkedRequest.onRegister, async(req, res) => {
 
         //Validation
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({ errors: errors.array() })
         }
+
+
         const {name, email, password} = req.body;
 
         try {
@@ -49,10 +51,11 @@ router.post('/', checkedRequest.onRegister,async (req, res) => {
             await user.save();
 
 
-            //Return jsonwebtoken
-            return res.json( user);
+            //Return jsonwebtoken : static method in model to generate token
 
-           // res.send('user register')
+            const token = await User.generateWebToken(user.id);
+
+            return res.json({token});
 
 
 

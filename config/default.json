@@ -1,3 +1,6 @@
 {
-    "mongoURI": "mongodb+srv://yanndeo:deo1234@devworker-wovin.mongodb.net/rsocial2?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://yanndeo:deo1234@devworker-wovin.mongodb.net/rsocial2?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken_social_dev_2.0",
+    "expirationTime" : 3500000
+
 }
