@@ -3,14 +3,17 @@ const express = require('express')
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs')
-const { validationResult} = require('express-validator');
-const checkedRequest = require('../../validations/UserValidation');
+
 
 //Models
 const User = require('../../models/User')
-//Middleware 
-const auth = require('../../middleware/check-token')
 
+//Middleware 
+const isProtected = require('../../middleware/check-token')
+
+//Validation
+const { validationResult } = require('express-validator');
+const checkedRequest = require('../../validations/UserValidation');
 
 
 
@@ -50,7 +53,6 @@ router.post('/', checkedRequest.onRegister, async(req, res) => {
             //Encrypt password :encrypted in model User hook pre.save()
 
             await user.save();
-
 
             //Return jsonwebtoken : static method in model to generate token
 

@@ -77,6 +77,7 @@ const UserSchema = new mongoose.Schema({
  * @param {*} userID 
  */
 UserSchema.statics.generateWebToken = async function(userID ){
+
     try {
         const payload ={
             user:{
@@ -102,10 +103,27 @@ UserSchema.statics.generateWebToken = async function(userID ){
 
 
 
+/**
+ * STATIC METHOD
+ * Generate Compare password on login
+ * @param {*} user 
+ */
+UserSchema.statics.comparePasswd = async function (password, hash) {
+
+    try {
+        
+        const isMatched = await bcrypt.compare(password, hash);
+
+        return isMatched;
 
 
+    } catch (error) {
+        
+        console.log('err-compare-passwd-user-onlogin', error.message)
 
-
+        res.status(500).send("server error");
+    }
+}
 
 
 
@@ -117,9 +135,6 @@ UserSchema.statics.generateWebToken = async function(userID ){
 function emailtoLower(v) {
     return v.toLowerCase();
 }
-
-
-
 
 
 
