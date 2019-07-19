@@ -21,12 +21,12 @@ router.get('/me', isProtected, async(req, res) => {
 
     try {
         const profile = await Profile.findOne({ user: req.user.id })
-                                        .populate('users',['name', 'avatar'])
+                                     .populate('user',['name', 'avatar'])
 
         if(!profile)
             return res.status(400).json({ msg: 'There are not profile for this user '});
         else
-            return res.json(myprofile);
+            return res.json(profile);
 
 
     } catch (error) {
@@ -118,13 +118,73 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
 
 
 
+});
 
 
 
 
 
+
+
+
+
+
+
+
+/**
+ * @routes GET api/profile
+ * @desc Recuperer tous les profiles users
+ * @access Public
+ */
+router.get('/', async(req, res)=>{
+
+    try {
+
+        const profiles = await Profile.find().populate('user', ['name', 'avatar'])
+
+
+        return res.json(profiles);
+
+    } catch (error) {
+        console.log('err-profile-getall', error.message)
+        res.status(500).send('Server Error')
+    }
+
+})
+
+
+
+/**
+ * @routes GET api/profile/user/useID
+ * @desc Recuperer le profiles d'un  by userID
+ * @access Public
+ */
+router.get('/user/:userID', async(req, res)=>{
+
+    try {
+
+       
+         const profile = await Profile.findOne({ user: req.params.userID }).populate('user', ['name', 'avatar'])
+
+            if (!profile) {
+
+                return res.status(400).json({ msg: 'Profile not found' });
+            }
+            else{
+                return res.json(profile);
+            }
+    
+    } catch (error) {
+        if (error.king == 'ObjectId'){
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
+        console.log('err-profile-getbyuserID', error)
+        res.status(500).send('Server Error')
+    }
+    
 
 });
+
 
 
 
