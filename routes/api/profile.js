@@ -154,9 +154,14 @@ router.get('/', async(req, res)=>{
 
 
 
+
+
+
+
+
 /**
  * @routes GET api/profile/user/useID
- * @desc Recuperer le profiles d'un  by userID
+ * @desc Recuperer le profiles d'un user by userID
  * @access Public
  */
 router.get('/user/:userID', async(req, res)=>{
@@ -184,6 +189,66 @@ router.get('/user/:userID', async(req, res)=>{
     
 
 });
+
+
+
+
+
+
+/**
+ * @route DELETE /api/profile
+ * @desc Suppresion du profile
+ * @desc Suppression d'un user.
+ * @desc Suppression de ces posts
+ * @access Private
+ */
+router.delete('/' , isProtected, async(req, res)=>{
+
+    try {
+
+        //remove users posts
+
+        //remove profile user
+        await Profile.findOneAndRemove({ user: req.user.id});
+
+        //remove user
+        await User.findOneAndRemove({ _id: req.user.id });
+
+
+        res.json({ msg :'User deleted '})
+
+
+    } catch (error) {
+        if (error.kind =='ObjectId'){
+            return res.json({ msg :' User not founded'})
+        } 
+
+        console.log('err-profile-getbyuserID', error)
+        res.status(500).send('Server Error')
+    }
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
