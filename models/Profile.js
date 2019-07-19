@@ -32,7 +32,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
 
-    experince:[
+    experience:[
         {
             title: {
                 type: String,

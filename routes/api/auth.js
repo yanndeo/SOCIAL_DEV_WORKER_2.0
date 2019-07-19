@@ -12,15 +12,21 @@ const { validationResult } = require('express-validator');
 const checkedRequest = require('../../validations/UserValidation');
 
 
+
+
+
+
+
 /**
  * @routes GET api/auth
- * @desc Test Routes
+ * @desc Recupere l'user connected
+ * @desc via le token dans le header
  * @access Private
  */
 router.get('/', isProtected, async(req, res) => {
 
     try {
-
+        //Recuperl'user sans le pwd
         const user = await User.findById(req.user.id).select('-password ');
 
         return res.json(user);
@@ -33,6 +39,11 @@ router.get('/', isProtected, async(req, res) => {
     }
     
 });
+
+
+
+
+
 
 
 
