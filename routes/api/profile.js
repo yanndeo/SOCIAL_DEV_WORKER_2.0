@@ -111,7 +111,7 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
 
         
     } catch (error) {
-        console.log('err-profile-add-or-updating', error.message)
+        console.log('err-profile-add-or-updating:', error.message)
         res.status(500).send('Server Error')
     }
 
@@ -146,7 +146,7 @@ router.get('/', async(req, res)=>{
         return res.json(profiles);
 
     } catch (error) {
-        console.log('err-profile-getall', error.message)
+        console.log('err-profile-getall:', error.message)
         res.status(500).send('Server Error')
     }
 
@@ -183,7 +183,7 @@ router.get('/user/:userID', async(req, res)=>{
         if (error.king == 'ObjectId'){
             return res.status(400).json({ msg: 'Profile not found' });
         }
-        console.log('err-profile-getbyuserID', error)
+        console.log('err-profile-getbyuserID:', error)
         res.status(500).send('Server Error')
     }
     
@@ -223,12 +223,114 @@ router.delete('/' , isProtected, async(req, res)=>{
             return res.json({ msg :' User not founded'})
         } 
 
-        console.log('err-profile-getbyuserID', error)
+        console.log('err-profile-getbyuserID:', error)
         res.status(500).send('Server Error')
     }
 
 
-})
+});
+
+
+
+
+
+
+
+
+/**
+ * @route PUT /api/profile/experience
+ * @desc Add profile experience 
+ * @access Private
+ */
+router.put('/experience', isProtected, checkedRequest.onPutExperience,  async(req, res)=>{
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, company, location, from, to, current, description } = req.body ;
+
+    try {
+        
+        let profile = await Profile.findOne({ user : req.user.id })
+
+        if(!profile){
+            return res.status(400).json({ msg :'Profile not fount'})
+        }else{
+
+            const newExp = {}
+
+            if (title) newExp.title = title;
+            if (company) newExp.company = company;
+            if (location) newExp.location = location;
+            if (from) newExp.from = from;
+            if (to) newExp.to = to;
+            if (current) newExp.current = current;
+            if (description) newExp.description = description;
+
+            profile.experience.unshift(newExp);
+
+            await profile.save();
+
+            return res.json(profile);
+
+        }
+
+    } catch (error) {
+        console.log("err-profile-add-experience:", error);
+        res.status(500).send("Server Error");
+    }
+
+
+});
+
+
+
+
+
+
+/**
+ * @route DELETE api/profile/experience/expID
+ * @desc Supprimer une experience (objet)
+ * @access Private
+ */
+router.delete('/experience/:expID',isProtected, async(req, res)=>{
+
+        try {
+
+            const profile = await Profile.findOne({ user :req.user.id});         
+
+            if (!profile) {
+
+                return res.status(400).json({ msg: 'Profile not fount' })
+
+            } else {
+
+                //parcourant les items experiences pour en ressortir juste un [] d'id et checkons l'existance de expID avec un indexOf
+                let indiceExp = profile.experience.map(item => item.id)
+                                                  .indexOf(req.params.expID );
+
+                profile.experience.splice(indiceExp , 1)
+
+                await profile.save()
+
+                return res.json(profile)
+
+                } 
+
+        } catch (error) {
+            if(error.kind =='objectId'){
+                return res.status(400).json({ msg :'Experience not found'})
+            }
+            console.log("err-profile-delete-experience:", error);
+            res.status(500).send("Server Error");
+        }
+
+});
+
+
+
 
 
 
@@ -261,4 +363,8 @@ module.exports = router;
 /**
  * split() => renvoi un [] d'items sur la base du seperateur .
  * map() => creer un nouveau [] avec les resultats de l'appel d'une function .
+ * 
+ * -La méthode splice() modifie le contenu d'un tableau en retirant des éléments et/ou en ajoutant de nouveaux éléments
+ * splice(x, 1)= > retire x du tableau. 
+ * splice(x,0) => ajoute x
  */
