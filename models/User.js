@@ -92,7 +92,6 @@ UserSchema.statics.generateWebToken = async function(userID ){
 
         );
 
-
     } catch (error) {
         console.log('err-generate-token-user-save', error.message)
 
@@ -115,7 +114,6 @@ UserSchema.statics.comparePasswd = async function (password, hash) {
         const isMatched = await bcrypt.compare(password, hash);
 
         return isMatched;
-
 
     } catch (error) {
         

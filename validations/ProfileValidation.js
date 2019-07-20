@@ -13,6 +13,13 @@ module.exports = {
         check('company', 'Company is required').not().isEmpty(),
         check('from', 'From date is required').not().isEmpty(),
 
+    ],
+
+    onPutEducation: [
+        check('school', 'School is required').not().isEmpty(),
+        check('degree', 'Degree is required').not().isEmpty(),
+        check('fieldofstudy', 'Field of study date is required').not().isEmpty(),
+        check('from', 'from is required').not().isEmpty(),
 
     ],
    

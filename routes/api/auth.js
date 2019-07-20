@@ -33,7 +33,6 @@ router.get('/', isProtected, async(req, res) => {
         
     } catch (error) {
         console.log('err-auth:', error.message)
-
         return res.status(500).send("server error")
 
     }
@@ -55,14 +54,13 @@ router.get('/', isProtected, async(req, res) => {
  */
 router.post('/', checkedRequest.onLogin , async(req, res)=>{
 
-
     //Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
 
-    const {email, password } = req.body; 
+    const { email, password } = req.body; 
 
     try {
         //Find user by email
