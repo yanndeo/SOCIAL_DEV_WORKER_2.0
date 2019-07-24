@@ -3,9 +3,10 @@ const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken")
 
+const Schema = mongoose.Schema;
 
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
 
     name:{
         type:String,
@@ -25,6 +26,18 @@ const UserSchema = new mongoose.Schema({
         type:String,
 
     },
+    invitation:{
+        type:Number,
+        default: 0
+    },
+    followers:[
+      {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+      }
+    ],
     date:{
         type: Date,
         default : Date.now

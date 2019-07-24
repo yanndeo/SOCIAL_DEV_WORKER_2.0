@@ -6,6 +6,11 @@ module.exports = {
         check('text', 'Text is required').not().isEmpty(),
 
     ],
+    onPostComment: [
+        check('text', 'Text is required').not().isEmpty(),
+
+    ],
+
 
  
 }
