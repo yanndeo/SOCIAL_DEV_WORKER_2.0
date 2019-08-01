@@ -1,12 +1,14 @@
 import React, {Fragment, useState} from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { _setAlert } from '../../actions/alertAction';
 
 
 
 
-const Register = () => {
+
+const Register = ({ _setAlert }) => {
 
 /**
  * State
@@ -43,7 +45,8 @@ const handleSubmitForm = async(e) =>{
     e.preventDefault();
 
     if(password !== password2){
-        console.log('Password not match..' )
+        //Call action redux to add alert msg into store
+        _setAlert('Password not match..', 'danger');
     }else{
         console.log('data-submit', 'SUCCESS')
 
@@ -120,11 +123,15 @@ const handleSubmitForm = async(e) =>{
     )
 }
 
-Register.propTypes = {
 
+
+
+
+Register.propTypes = {
+    _setAlert :PropTypes.func.isRequired,
 }
 
-export default Register
+export default connect(null , {_setAlert})(Register)
 
 
 
