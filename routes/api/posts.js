@@ -177,7 +177,7 @@ router.put('/like/:postID', isProtected, async(req, res)=>{
         }else{
         //Check si le user est deja dans le [] , donc siil a dejà liked :)
 
-        const indiceUser = post.likes.map(item => item.user.toString)
+        const indiceUser = post.likes.map(item => item.user.toString())
                                      .indexOf(req.user.id);
             // Il n'y est pas :ajoute le alors.
             if(indiceUser === -1){
