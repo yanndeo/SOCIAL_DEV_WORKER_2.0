@@ -8,6 +8,7 @@ const Landing = props => {
 
 
     return (
+        
         <section className="landing">
             <div className="dark-overlay">
                 <div className="landing-inner">
