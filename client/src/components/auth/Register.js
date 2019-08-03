@@ -2,13 +2,15 @@ import React, {Fragment, useState} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+//Action
 import { _setAlert } from '../../actions/alertAction';
+import { _register } from '../../actions/authAction';
 
 
 
 
 
-const Register = ({ _setAlert }) => {
+const Register = ({ _setAlert, _register }) => {
 
 /**
  * State
@@ -40,7 +42,10 @@ const handleChange = e =>{
 
 
 
-
+/**
+ * 
+ * @param {*} e 
+ */
 const handleSubmitForm = async(e) =>{
     e.preventDefault();
 
@@ -48,6 +53,8 @@ const handleSubmitForm = async(e) =>{
         //Call action redux to add alert msg into store
         _setAlert('Password not match..', 'danger');
     }else{
+        //Call action redux to register user and generate us token
+        _register({name, email, password});
         console.log('data-submit', 'SUCCESS')
 
     }
@@ -59,9 +66,11 @@ const handleSubmitForm = async(e) =>{
         <Fragment>
 
             <h1 className="large text-primary">Sign Up</h1>
+            
             <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
 
-            <form className="form" onSubmit= {e => handleSubmitForm(e)}>
+            <form className="form" onSubmit= {e => handleSubmitForm(e)}  noValidate>
+
                 <div className="form-group">
                     <input 
                         type="text" 
@@ -69,24 +78,24 @@ const handleSubmitForm = async(e) =>{
                         name="name" 
                         required 
                         value={name}
-                        onChange={e => handleChange(e)}
-                    />
+                        onChange={e => handleChange(e)}  />
                 </div>
+
                 <div className="form-group">
+
                     <input 
                         type="email" 
                         placeholder="Email Address" 
                         name="email"
                         value= {email}
-                        onChange={e => handleChange(e)}
-
-                     />
+                        onChange={e => handleChange(e)}  />
 
                     <small className="form-text">
                          This site uses Gravatar so if you want a profile image, use a
                         Gravatar email
                     </small>
                 </div>
+
                 <div className="form-group">
                     <input
                         type="password"
@@ -94,11 +103,9 @@ const handleSubmitForm = async(e) =>{
                         name="password"
                         minLength="6"
                         value={password}
-                        onChange={e=>handleChange(e)}
-
-
-                    />
+                        onChange={e => handleChange(e)} />
                 </div>
+
                 <div className="form-group">
                     <input
                         type="password"
@@ -106,12 +113,11 @@ const handleSubmitForm = async(e) =>{
                         name="password2"
                         minLength="6"
                         value={password2}
-                        onChange={e => handleChange(e)}
-
-
-                    />
+                        onChange={e => handleChange(e)}  />
                 </div>
+
                 <input type="submit" className="btn btn-primary" value="Register" />
+
             </form>
 
             <p className="my-1">
@@ -128,10 +134,11 @@ const handleSubmitForm = async(e) =>{
 
 
 Register.propTypes = {
-    _setAlert :PropTypes.func.isRequired,
-}
+  _setAlert: PropTypes.func.isRequired,
+  _register: PropTypes.func.isRequired,
+};
 
-export default connect(null , {_setAlert})(Register)
+export default connect(null, { _setAlert, _register})(Register)
 
 
 
