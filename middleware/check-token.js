@@ -6,8 +6,6 @@ const config = require('config');
 /**
  * un middleware est avant tout juste en function
  */
-
-
  const protectedRoute =  async(req, res, next)=>{
 
     //Get TOKEN from headers request
@@ -17,6 +15,7 @@ const config = require('config');
     if(token){
 
         try {
+            
             const decoded = await jwt.verify(token, config.get('jwtSecret') )
 
             const { user} = decoded;

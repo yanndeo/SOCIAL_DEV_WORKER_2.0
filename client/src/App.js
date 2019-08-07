@@ -1,4 +1,4 @@
-import React, { Fragment} from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import './App.css';
 //COMPONENTS
@@ -8,16 +8,35 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Dashboard from "./components/dashboard/Dashboard";
+
 //REDUX
 import { Provider} from 'react-redux';
 import store from './store';
 
+//UTILS
+import { setAuthToken } from './utils/setAuthToken';
+import { _loadUser } from './actions/authAction';
+import PrivateRoute from './components/routing/PrivateRoute';
+
+
+ if(localStorage.token){
+  setAuthToken(localStorage.token)
+} 
 
 
 
 const App = () => {
-  return (
 
+  useEffect(()=>{
+    
+    //if(localStorage.token){
+      store.dispatch(_loadUser());
+   // }
+  }, []);
+
+ 
+  return (
 
     <Provider store={store} >
 
@@ -30,6 +49,8 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+
             </Switch>
           </section>
         </Fragment>

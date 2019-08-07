@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS } from "../actions/types";
+import { REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED, AUTH_ERR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/types";
 
 
 
@@ -10,31 +10,50 @@ const initialState = {
 };
 
 
-export default function (state = initialState, action){
 
+
+
+export default function (state = initialState, action){
 
     const { type, payload } = action;
 
     switch(type){
 
+
+        case USER_LOADED:
+             return {
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user: payload
+            };
+
+
         case REGISTER_SUCCESS:
-            localStorage.setItem('token', payload.token);
-            return {
+        case LOGIN_SUCCESS:
+             localStorage.setItem('token', payload.token);
+             return {
               ...state,
               ...payload,
               isAuthenticated: true,
               loading: false
             };
 
+
         case REGISTER_FAIL:
-            localStorage.removeItem('token');
-            return {
+        case LOGIN_FAIL:
+        case AUTH_ERR:
+        case LOGOUT:
+             localStorage.removeItem('token');
+             return {
                 ...state,
                 token: null,
                 isAuthenticated: false,
-                loading: false
-            };
-        
+                loading: false,
+                user:null         //rajout
+             };
+
+            
         default :
             return state;
     }

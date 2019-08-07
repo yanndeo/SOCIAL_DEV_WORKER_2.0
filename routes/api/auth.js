@@ -26,13 +26,16 @@ const checkedRequest = require('../../validations/UserValidation');
 router.get('/', isProtected, async(req, res) => {
 
     try {
+
         //Recuperl'user sans le pwd
         const user = await User.findById(req.user.id).select('-password ');
 
         return res.json(user);
         
     } catch (error) {
+
         console.log('err-auth:', error.message)
+        
         return res.status(500).send("server error")
 
     }

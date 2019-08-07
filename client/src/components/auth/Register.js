@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react'
 import PropTypes from 'prop-types'
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 //Action
 import { _setAlert } from '../../actions/alertAction';
@@ -10,7 +10,7 @@ import { _register } from '../../actions/authAction';
 
 
 
-const Register = ({ _setAlert, _register }) => {
+const Register = ({ _setAlert, _register, isAuthenticated }) => {
 
 /**
  * State
@@ -61,6 +61,10 @@ const handleSubmitForm = async(e) =>{
 }
 
 
+
+    if (isAuthenticated) {
+        return <Redirect to="/dashboard" />
+    }
 
     return (
         <Fragment>
@@ -132,13 +136,19 @@ const handleSubmitForm = async(e) =>{
 
 
 
-
+//
 Register.propTypes = {
   _setAlert: PropTypes.func.isRequired,
   _register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { _setAlert, _register})(Register)
+//
+const mapStateToProps = state => ({
+    isAuthenticated: state.authReducer.isAuthenticated
+});
+
+export default connect(mapStateToProps, { _setAlert, _register})(Register)
 
 
 

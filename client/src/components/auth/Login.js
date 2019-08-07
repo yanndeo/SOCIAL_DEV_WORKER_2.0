@@ -1,9 +1,11 @@
 import React ,{Fragment, useState} from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { _loginUser } from '../../actions/authAction';
 
 
-const Login = () => {
+const Login = ({ _loginUser, isAuthenticated}) => {
 
 
 
@@ -41,20 +43,24 @@ const Login = () => {
      */
     const handleSubmitForm = async (e) => {
         e.preventDefault();
+        _loginUser(email, password)
         
+    };
+
+    if(isAuthenticated){
+        return <Redirect to="/dashboard" />
     }
 
 
 
 
-
-
-
-
     return (
+
+
         <Fragment>
 
             <h1 className="large text-primary">Sign In</h1>
+
             <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
 
             <form className="form" onSubmit={e => handleSubmitForm(e)}>
@@ -65,8 +71,7 @@ const Login = () => {
                         placeholder="Email Address"
                         name="email"
                         value={email}
-                        onChange={e => handleChange(e)}
-                    />
+                        onChange={e => handleChange(e)} />
 
                 </div>
 
@@ -77,8 +82,7 @@ const Login = () => {
                         name="password"
                         minLength="6"
                         value={password}
-                        onChange={e => handleChange(e)}
-                    />
+                        onChange={e => handleChange(e)} />
 
                 </div>
               
@@ -93,6 +97,14 @@ const Login = () => {
     )
 }
 
+Login.propTypes = {
+  _loginUser: PropTypes.func.isRequired,
+  isAuthenticated:  PropTypes.bool,
+};
 
 
-export default Login
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated
+});
+
+export default connect(mapStateToProps,{_loginUser} )(Login)
