@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { _createProfile, _getCurrentProfile } from '../../actions/profileAction';
-import profileReducer from '../../reducers/profileReducer';
 
 
 const EditProfile = ({ profile :{ profile, loading } , _createProfile, _getCurrentProfile, history  }) => {
@@ -199,13 +198,13 @@ const EditProfile = ({ profile :{ profile, loading } , _createProfile, _getCurre
 }
 
 
-//
+//PropType
 EditProfile.propTypes = {
   _createProfile: PropTypes.func.isRequired,
   profile : PropTypes.object,
 };
 
-//
+//State
 const  mapStateToProps = (state) => ({
     profile: state.profileReducer,
     
