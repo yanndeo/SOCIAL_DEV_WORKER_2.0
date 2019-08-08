@@ -58,7 +58,7 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
         return res.status(400).json({ errors: errors.array() })
     }
 
-    const { company , website, location, bio, status, githubusername, skills, youtube, facebook, twitter , instagram, linkedin } = req.body
+    const { company , website, location, bio, status, githubUsername, skills, youtube, facebook, twitter , instagram, linkedin } = req.body
 
     //Build profile object
     const profileFields = {};
@@ -69,7 +69,7 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
+    if (githubUsername) profileFields.githUbusername = githubUsername;
     if (skills){
         profileFields.skills = skills.split(',').map(skill => skill.trim() ) ;
     } 
@@ -89,7 +89,7 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
         let profile = await Profile.findOne({ user: req.user.id });
           
             //CREATE
-        if(!profile || profile === null){
+        if(!profile || profile === null ){
 
             profile = new Profile(profileFields);
 
@@ -107,7 +107,6 @@ router.post('/', isProtected, checkedRequest.onSubmitProfile, async(req, res)=>{
 
             //return res.json(profile)          
         }
-
 
         return res.json(profile)
 

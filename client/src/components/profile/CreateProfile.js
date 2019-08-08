@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {Fragment , useState} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Fragment } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { _createProfile } from '../../actions/profileAction';
 
-const CreateProfile = props => {
+
+const CreateProfile = ({ _createProfile,  history}) => {
 
     /**
      * State for form profil
@@ -29,6 +31,7 @@ const CreateProfile = props => {
     //Destructucting value of state profile
     const { company,website,location,status,skills,githubUsername, bio,twitter, facebook, linkedin,youtube,instagram } = stateProfileData
 
+
     /**
      * State to show or hide 
      * social inputs
@@ -37,8 +40,23 @@ const CreateProfile = props => {
 
 
 
-    //Controle fiels form for state
+    //Control fiels form for state
     const handleChange =(e)=>{  setStateProfileData({ ...stateProfileData, [e.target.name]:e.target.value }) }
+
+    console.log('state-profile', stateProfileData)
+
+
+    //Submit all datas
+    const handleSubmit = e =>{
+        e.preventDefault();
+        _createProfile(stateProfileData, history )
+    }
+
+
+
+
+
+
 
 
 
@@ -46,13 +64,16 @@ const CreateProfile = props => {
         <div>
                 <h1 className="large text-primary">
                     Create Your Profile
-      </h1>
+                </h1>
                 <p className="lead">
                     <i className="fas fa-user"></i> Let's get some information to make your
                     profile stand out
-      </p>
+                </p>
+
                 <small>* = required field</small>
-                <form className="form">
+
+                <form className="form" onSubmit={e=>handleSubmit(e) } >
+
                     <div className="form-group">
                         <select name="status" value={status} onChange= {e=> handleChange(e)} >
                             <option value="0">* Select Professional Status</option>
@@ -67,27 +88,33 @@ const CreateProfile = props => {
                         </select>
                         <small className="form-text" >Give us an idea of where you are at in your career</small>
                     </div>
+
                     <div className="form-group">
                     <input type="text" placeholder="Company" name="company" value={company} onChange={e => handleChange(e)}/>
                         <small className="form-text">Could be your own company or one you work for</small>
                     </div>
+
                     <div className="form-group">
                     <input type="text" placeholder="Website" name="website" value={website} onChange={e => handleChange(e)} />
                         <small className="form-text">Could be your own or a company website</small>
                     </div>
+
                     <div className="form-group">
                     <input type="text" placeholder="Location" name="location" value={location} onChange={e => handleChange(e)} />
                         <small className="form-text" >City & state suggested (eg. Boston, MA)</small>
                     </div>
+
                     <div className="form-group">
                     <input type="text" placeholder="* Skills" name="skills" value={skills} onChange={e => handleChange(e)} />
                         <small className="form-text">Please use comma separated values (eg.
                         HTML,CSS,JavaScript,PHP)</small>
                     </div>
+
                     <div className="form-group">
-                    <input type="text" placeholder="Github Username" name="githubusername" value={githubUsername} onChange={e => handleChange(e)} />
+                    <input type="text" placeholder="Github Username" name="githubUsername" value={githubUsername} onChange={e => handleChange(e)} />
                         <small className="form-text">If you want your latest repos and a Github link, include your username</small>
                     </div>
+
                     <div className="form-group">
                     <textarea placeholder="A short bio of yourself" name="bio" value={bio} onChange={e => handleChange(e)} ></textarea>
                         <small className="form-text">Tell us a little about yourself</small>
@@ -134,14 +161,20 @@ const CreateProfile = props => {
                     }
                     
                     <input type="submit" className="btn btn-primary my-1" />
-                    <a className="btn btn-light my-1" href="dashboard.html">Go Back</a>
+                    <Link className="btn btn-light my-1" to="/">Go Back</Link>
                 </form>
         </div>
     )
 }
 
+
+
 CreateProfile.propTypes = {
+  _createProfile: PropTypes.func.isRequired,
+};
 
-}
 
-export default connect()(CreateProfile);
+
+
+
+export default connect(null, { _createProfile })(withRouter(CreateProfile));

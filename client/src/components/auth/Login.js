@@ -63,31 +63,33 @@ const Login = ({ _loginUser, isAuthenticated}) => {
 
             <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
 
-            <form className="form" onSubmit={e => handleSubmitForm(e)}>
-                
-                <div className="form-group">
-                    <input
-                        type="email"
-                        placeholder="Email Address"
-                        name="email"
-                        value={email}
-                        onChange={e => handleChange(e)} />
+           <div className="" style={{ width:640}}>
+                <form className="form" onSubmit={e => handleSubmitForm(e)}>
 
-                </div>
+                    <div className="form-group">
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            name="email"
+                            value={email}
+                            onChange={e => handleChange(e)} />
 
-                <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        minLength="6"
-                        value={password}
-                        onChange={e => handleChange(e)} />
+                    </div>
 
-                </div>
-              
-                <input type="submit" className="btn btn-primary" value="Login" />
-            </form>
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            minLength="6"
+                            value={password}
+                            onChange={e => handleChange(e)} />
+
+                    </div>
+
+                    <input type="submit" className="btn btn-primary " style={{ width: 640 }} value="LOGIN" />
+                </form>
+           </div>
 
             <p className="my-1">
                 Don't have an account? <Link to="/register">Sign In</Link>

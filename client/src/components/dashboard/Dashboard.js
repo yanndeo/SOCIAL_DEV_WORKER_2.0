@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { _getCurrentProfile } from '../../actions/profileAction';
 import Spinner from '../layout/Spinner';
+import DashboardActions from "./DashboardActions";
 
 
 const Dashboard = ({ _getCurrentProfile, auth:{user}, profile:{profile, loading} }) => {
@@ -12,7 +13,7 @@ const Dashboard = ({ _getCurrentProfile, auth:{user}, profile:{profile, loading}
 
   useEffect(() => {
     console.log('componentDimount dahboard')
-    _getCurrentProfile()
+    _getCurrentProfile();
    
   }, [])
 
@@ -26,7 +27,9 @@ const Dashboard = ({ _getCurrentProfile, auth:{user}, profile:{profile, loading}
           </p>
 
           { profile !== null 
-            ? <Fragment> has</Fragment> 
+            ? (<Fragment> 
+                <DashboardActions/>
+             </Fragment> )
 
             : (<Fragment> 
                 <p> You have not setup yen your profile , please add some info</p>
