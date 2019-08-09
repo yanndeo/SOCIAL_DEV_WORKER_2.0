@@ -1,6 +1,6 @@
 import axios from "axios";
 import { _setAlert } from './alertAction';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, CLEAR_PROFILE, ACCOUNT_DELETED } from "./types";
 //import { setAuthToken } from "../utils/setAuthToken";
 
 
@@ -176,4 +176,93 @@ export const _addEducation = (formDataEducation, history) => async dispatch => {
         })
     }
 
-}
+};
+
+
+
+
+/**
+ * Delete experience
+ * @param {*} experienceID 
+ */
+export const _deleteExperience = experienceID => async dispatch =>{
+
+    try {
+        const res = await axios.delete(`api/profile/experience/${experienceID} `);
+
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload:res.data
+        });
+
+        dispatch(_setAlert('Experience removed', 'success'));
+
+    } catch (err) {
+            console.log(err)
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+
+};
+
+
+/**
+ * Detele education
+ * @param {*} educationID 
+ */
+export const _deleteEducation = educationID => async dispatch => {
+
+    try {
+        const res = await axios.delete(`api/profile/education/${educationID} `);
+
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: res.data
+        });
+
+        dispatch(_setAlert('Education removed', 'success'));
+
+    } catch (err) {
+        console.log(err)
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+
+};
+
+
+
+
+
+/**
+ * Delete profile
+ */
+export const _deleteAccount = ()=> async dispatch => {
+
+    if(window.confirm('Are you sure? This can not restore')) {
+
+        try {
+            const res = await axios.delete(`api/profile `);
+
+            dispatch({ type: CLEAR_PROFILE });    // => profile reducer
+            dispatch({ type: ACCOUNT_DELETED }); // => auth reducer
+
+
+            dispatch(_setAlert('Education removed', 'success'));
+
+        } catch (err) {
+            console.log(err)
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: { msg: err.response.statusText, status: err.response.status }
+            })
+        }
+    }
+
+};

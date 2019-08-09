@@ -5,6 +5,8 @@ const config = require('config');
 //Models
 const User = require('../../models/User')
 const Profile = require("../../models/Profile");
+const User = require('../../models/Post')
+
 
 //Middleware
 const isProtected = require("../../middleware/check-token");
@@ -208,6 +210,7 @@ router.delete('/' , isProtected, async(req, res)=>{
     try {
 
         //remove users posts
+        await Post.deleteMany({ user :req.user.id})
 
         //remove profile user
         await Profile.findOneAndRemove({ user: req.user.id});
@@ -304,7 +307,7 @@ router.delete('/experience/:expID',isProtected, async(req, res)=>{
 
             if (!profile) {
 
-                return res.status(400).json({ msg: 'Profile not fount' })
+                return res.status(400).json({ msg: 'Profile not found' })
 
             } else {
 
@@ -312,13 +315,20 @@ router.delete('/experience/:expID',isProtected, async(req, res)=>{
                 let indiceExp = profile.experience.map(item => item.id)
                                                   .indexOf(req.params.expID );
 
-                profile.experience.splice(indiceExp , 1)
+                if(indiceExp !== -1){
 
-                await profile.save()
+                    profile.experience.splice(indiceExp, 1)
 
-                return res.json(profile)
+                    await profile.save()
 
-                } 
+                    return res.json(profile)
+                }
+
+                return res.status(400).json({ msg: 'Experience not exist' });
+
+               
+
+             } 
 
         } catch (error) {
             if(error.kind =='objectId'){

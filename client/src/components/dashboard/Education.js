@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment';
 
-const Education = ({ educations }) => {
+const Education = ({ educations, deleteEduCallback }) => {
 
 
     /**
@@ -16,7 +16,7 @@ const Education = ({ educations }) => {
             <td className="hide-sm">{edu.degree} </td>
             <td>
                 <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
-              {
+               {
                   edu.to === null
                     ?
                     "Now"
@@ -25,7 +25,7 @@ const Education = ({ educations }) => {
                 }
             </td>
             <td>
-                <button className=" btn btn-danger">Delete </button>
+                <button className=" btn btn-danger" onClick={() => deleteEduCallback(edu._id) } >Delete </button>
             </td>
         </tr>
     ));
@@ -58,8 +58,9 @@ const Education = ({ educations }) => {
 
 //PropType
 Education.propTypes = {
-    educations: PropTypes.array.isRequired,
-}
+  educations: PropTypes.array.isRequired,
+  deleteEduCallback: PropTypes.func.isRequired,
+};
 
 
 export default Education
