@@ -5,7 +5,7 @@ const config = require('config');
 //Models
 const User = require('../../models/User')
 const Profile = require("../../models/Profile");
-const User = require('../../models/Post')
+const Post = require('../../models/Post')
 
 
 //Middleware
@@ -170,7 +170,6 @@ router.get('/', async(req, res)=>{
 router.get('/user/:userID', async(req, res)=>{
 
     try {
-
        
          const profile = await Profile.findOne({ user: req.params.userID }).populate('user', ['name', 'avatar'])
 
@@ -445,7 +444,7 @@ router.delete('/education/:eduID', isProtected, async(req, res)=>{
 
 
 /**
- * @route GET api/profile/github/:username
+ * @route GET    
  * @desc GET user repos from Github
  * @access Public 
  */

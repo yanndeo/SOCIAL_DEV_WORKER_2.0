@@ -1,6 +1,6 @@
 import axios from "axios";
 import { _setAlert } from './alertAction';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, CLEAR_PROFILE, ACCOUNT_DELETED } from "./types";
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, CLEAR_PROFILE, ACCOUNT_DELETED, GET_PROFILES, GET_REPOS } from "./types";
 //import { setAuthToken } from "../utils/setAuthToken";
 
 
@@ -25,7 +25,37 @@ import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, CLEAR_PROFILE, ACCOUNT_DELE
              payload: { msg : error.response.statusText, status : error.response.status }
          })
      }
- }
+ };
+
+
+
+
+
+/**
+* Get all Profile
+* access public
+*/
+export const _getProfiles = () => async dispatch => {
+
+    dispatch({ type: CLEAR_PROFILE })
+
+    try {
+        const res = await axios.get('/api/profile');
+
+        dispatch({
+            type: GET_PROFILES,
+            payload: res.data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.statusText, status: error.response.status }
+        })
+    }
+}
+
+
 
 
 
@@ -254,7 +284,7 @@ export const _deleteAccount = ()=> async dispatch => {
             dispatch({ type: ACCOUNT_DELETED }); // => auth reducer
 
 
-            dispatch(_setAlert('Education removed', 'success'));
+            dispatch(_setAlert('Account removed', 'success'));
 
         } catch (err) {
             console.log(err)
@@ -266,3 +296,59 @@ export const _deleteAccount = ()=> async dispatch => {
     }
 
 };
+
+
+
+
+/**
+* Get a profile
+* by user id
+*/
+export const _getProfileById = userID => async dispatch => {
+
+
+    try {
+        const res = await axios.get(`api/profile/user/${userID}`);
+
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.statusText, status: error.response.status }
+        })
+    }
+};
+
+
+
+/**
+* Get a profile
+* 
+*/
+export const _getGithubRepo = username => async dispatch => {
+
+
+    try {
+        const res = await axios.get(`api/profile/github/${username}`);
+
+        dispatch({
+            type: GET_REPOS,
+            payload: res.data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.statusText, status: error.response.status }
+        });
+
+        dispatch(_setAlert(error.response.data, 'danger'));
+
+
+
+    }
+}

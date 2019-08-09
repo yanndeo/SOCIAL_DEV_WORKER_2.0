@@ -51,7 +51,7 @@ const EditProfile = ({ profile :{ profile, loading } , _createProfile, _getCurre
          _getCurrentProfile(); 
      
         setStateProfileData({
-       
+            ...stateProfileData,
             company: loading || !profile.company ? '' : profile.company,
             website: loading || !profile.website ? '' : profile.website,
             location: loading || !profile.location ? '' : profile.location,
@@ -59,12 +59,17 @@ const EditProfile = ({ profile :{ profile, loading } , _createProfile, _getCurre
             skills: loading || !profile.skills ? '' : profile.skills.join(','),
             githubUsername:loading || !profile.githubUsername ? '' : profile.githUbusername,
             bio: loading || !profile.bio ? '' : profile.bio,
+
             twitter: loading || !profile.social.twitter ? '' : profile.social.twitter,
             facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
             linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
             youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
             instagram: loading || !profile.social.instagram ? '' : profile.social.instagram
+   
         });
+
+
+                
         
 
     }, [loading]);
